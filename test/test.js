@@ -1,6 +1,6 @@
 
 require('ffi-napi')
-var addon = require('../../../build/Release/CoreSetApi.node');
+var addon = require('../build/Release/CoreSetApi.node');
 
 //exports.CoreSet = function () {
 //    console.log("addon.AudioHardwareSet('BoomAudioDevice') ret=" + addon.AudioHardwareSet('BoomAudioDevice'));
