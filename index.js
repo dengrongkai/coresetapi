@@ -1,5 +1,5 @@
 const coreSetApi
-    = require("../../build/Release/CoreSetApi.node");
+    = require("./build/Release/CoreSetApi.node");
 
 /**
  * Set mac system audio output device
