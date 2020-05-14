@@ -1,0 +1,39 @@
+{
+  "author": "",
+  "dependencies": {
+    "postis": "^2.2.0",
+    "prebuild-install": "^5.3.0",
+    "robotjs": "0.6.0",
+    "semver": "7.1.1"
+  },
+  "description": "Utilities for coresetapi project",
+  "devDependencies": {
+    "eslint": ">=3",
+    "eslint-plugin-jsdoc": "*",
+    "mocha": "^4.0.1",
+    "prebuild": "^9.1.1",
+    "precommit-hook": "3.0.0"
+  },
+  "gypfile": true,
+  "homepage": "",
+  "keywords": [
+    "coresetapi"
+  ],
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "name": "coresetapi",
+  "pre-commit": [
+    "lint"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dengrongkai/coresetapi.git"
+  },
+  "scripts": {
+    "install": "prebuild-install || node-gyp rebuild",
+    "lint": "eslint .",
+    "test": "TESTING=true mocha",
+    "validate": "npm ls"
+  },
+  "version": "1.0.0"
+}
