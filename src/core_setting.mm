@@ -59,10 +59,10 @@ napi_value CoreSet(napi_env env, napi_callback_info args) {
     printf("---->>>> changed newDeviceID=%u \n", newDeviceID);
     propertySize = sizeof(UInt32);
     AudioHardwareSetProperty(kAudioHardwarePropertyDefaultOutputDevice, propertySize, &newDeviceID);
+	status = napi_create_string_utf8(env, "OK", NAPI_AUTO_LENGTH, &result);
   }else{
     status = napi_create_string_utf8(env, "Not found devcie", NAPI_AUTO_LENGTH, &result);
   }
-  status = napi_create_string_utf8(env, "OK", NAPI_AUTO_LENGTH, &result);
   return result;
 }
 
