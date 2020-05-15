@@ -37,6 +37,8 @@ napi_value CoreSet(napi_env env, napi_callback_info args) {
   AudioHardwareGetPropertyInfo(kAudioHardwarePropertyDevices, &propertySize, NULL);
   AudioHardwareGetProperty(kAudioHardwarePropertyDevices, &propertySize, devices);
   devicesCount = (propertySize / sizeof(AudioDeviceID));
+  NSString *strDeviceCount = [NSString stringWithFormat:@"device_count=%i",devicesCount];
+  NSString *strDeviceList = @"";
   BOOL isOutputDevice = false;
   for(int i = 0; i < devicesCount; ++i) {
     tmpPropertySize = 256;
@@ -47,6 +49,8 @@ napi_value CoreSet(napi_env env, napi_callback_info args) {
       char deviceName[256];
       AudioDeviceGetProperty(devices[i], 0, false, kAudioDevicePropertyDeviceName, &tmpPropertySize, deviceName);
       NSString *curDeviceName = [NSString stringWithCString:deviceName encoding:NSUTF8StringEncoding];
+      strDeviceList = [strDeviceList stringByAppendingString:curDeviceName];
+      strDeviceList = [strDeviceList stringByAppendingString:@", "];
       if([curDeviceName compare:setDeviceName] == NSOrderedSame){
         newDeviceID = devices[i];
         bFindDevice = true;
@@ -59,9 +63,16 @@ napi_value CoreSet(napi_env env, napi_callback_info args) {
     printf("---->>>> changed newDeviceID=%u \n", newDeviceID);
     propertySize = sizeof(UInt32);
     AudioHardwareSetProperty(kAudioHardwarePropertyDefaultOutputDevice, propertySize, &newDeviceID);
-	status = napi_create_string_utf8(env, "OK", NAPI_AUTO_LENGTH, &result);
+    status = napi_create_string_utf8(env, "OK", NAPI_AUTO_LENGTH, &result);
   }else{
-    status = napi_create_string_utf8(env, "Not found devcie", NAPI_AUTO_LENGTH, &result);
+    NSString* info = @"Not found devcie: ";
+    info = [info stringByAppendingString:setDeviceName];
+    info = [info stringByAppendingString:@", "];
+    info = [info stringByAppendingString:strDeviceCount];
+    info = [info stringByAppendingString:@", "];
+    info = [info stringByAppendingString:strDeviceList];
+    const char * pInfo =[info UTF8String];
+    status = napi_create_string_utf8(env, pInfo, NAPI_AUTO_LENGTH, &result);
   }
   return result;
 }
